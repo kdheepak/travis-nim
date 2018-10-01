@@ -40,11 +40,15 @@ before_install:
 script:
   - nim c --run ./main.nim
   - nim compile -d:Release --passc:"-flto" $CROSS main.nim
+  - strip main
   - cp ./main ./main-$BUILD
 
 after_success:
   - travis_retry curl -L https://github.com/tfausak/github-release/releases/download/1.2.2/github-release-$TRAVIS_OS_NAME.gz | gunzip > github-release
   - chmod a+x github-release
+  # pcre64.dll/pcre32.dll must be distributed with the Windows executable
+  - curl -O https://nim-lang.org/download/dlls.zip
+  - unzip dlls.zip
   # - ./github-release release --token=$GITHUB_TOKEN --owner=kdheepak --repo=travis-nim --title=$TRAVIS_TAG --tag=$TRAVIS_TAG
   - ./github-release upload --token=$GITHUB_TOKEN --owner=kdheepak --repo=travis-nim --file=main-$BUILD --tag=releases --name=main-$BUILD
 
