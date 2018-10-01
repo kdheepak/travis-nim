@@ -14,12 +14,20 @@ matrix:
       env:
           BUILD=linux
           CHANNEL=stable
+          CROSS=""
+
+    - os: linux
+      env:
+          BUILD=windows
+          CHANNEL=stable
+          CROSS="-d:crosswin"
 
     - os: osx
       compiler: clang
       env:
           BUILD=osx
           CHANNEL=stable
+          CROSS=""
 
 before_install:
   # Install nim
@@ -33,6 +41,7 @@ before_install:
 
 script:
   - nim c --run ./main.nim
+  - nim compile -d:Release --passc:"-flto" $CROSS main.nim
   - cp ./main ./main-$BUILD
 
 after_success:
