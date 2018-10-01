@@ -17,6 +17,20 @@ matrix:
           CROSS=""
 
     - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            # For cross-compiling to Windows.
+            - binutils-mingw-w64-i686
+            - binutils-mingw-w64-x86-64
+            - gcc-mingw-w64-i686
+            - gcc-mingw-w64-x86-64
+            - g++-mingw-w64-i686
+            - g++-mingw-w64-x86-64
+            - mingw-w64
+      compiler: x86_64-w64-mingw32-gcc
       env:
           BUILD=windows
           CHANNEL=stable
