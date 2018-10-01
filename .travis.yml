@@ -1,0 +1,43 @@
+dist: trusty
+sudo: false
+
+language: c
+
+cache:
+  directories:
+    - $HOME/cache
+
+matrix:
+  fast_finish: true
+  include:
+    - os: linux
+      env:
+          BUILD=linux
+          CHANNEL=stable
+
+    - os: osx
+      compiler: clang
+      env:
+          BUILD=osx
+          CHANNEL=stable
+
+before_install:
+  # Install nim
+  - export CHOOSENIM_NO_ANALYTICS=1
+  - curl https://nim-lang.org/choosenim/init.sh -sSf > init.sh
+  - sh init.sh -y
+  - export PATH=/Users/travis/.nimble/bin:$PATH
+  - export PATH=~/.nimble/bin:$PATH
+  - echo "export PATH=~/.nimble/bin:$PATH" >> ~/.profile
+  - choosenim $CHANNEL
+
+script:
+  - nim c --run ./main.nim
+
+notifications:
+  email: false
+
+branches:
+  only:
+    - master
+
