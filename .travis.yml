@@ -46,7 +46,7 @@ after_success:
   - travis_retry curl -L https://github.com/tfausak/github-release/releases/download/1.2.2/github-release-$TRAVIS_OS_NAME.gz | gunzip > github-release
   - chmod a+x github-release
   # - ./github-release release --token=$GITHUB_TOKEN --owner=kdheepak --repo=travis-nim --title=$TRAVIS_TAG --tag=$TRAVIS_TAG
-  - ./github-release upload --token=$GITHUB_TOKEN --owner=kdheepak --repo=travis-nim --file=main-$BUILD.tar.gz --tag=v0.1.0 --name=main-$BUILD-v0.1.0-$TRAVIS_OS_NAME-x86_64.tar.gz
+  - ./github-release upload --token=$GITHUB_TOKEN --owner=kdheepak --repo=travis-nim --file=main-$BUILD.tar.gz --tag=releases --name=main-$BUILD-v0.1.0-$TRAVIS_OS_NAME-x86_64.tar.gz
 
 notifications:
   email: false
