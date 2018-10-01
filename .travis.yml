@@ -35,7 +35,7 @@ before_install:
   - echo "export PATH=~/.nimble/bin:$PATH" >> ~/.profile
   - choosenim $CHANNEL
   - if [ $TRAVIS_OS_NAME == linux -a $BUILD == windows ]; then sudo apt-get install mingw-w64 gcc-mingw-w64-x86-64 binutils-mingw-w64-x86-64 wine; fi
-  - if [ $TRAVIS_OS_NAME == linux -a $BUILD == windows ]; then CC=x86_64-w64-mingw32-gcc; fi
+  - if [ $TRAVIS_OS_NAME == linux -a $BUILD == windows ]; then export CC=x86_64-w64-mingw32-gcc; fi
 
 script:
   - nim c --run ./main.nim
