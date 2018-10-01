@@ -13,20 +13,6 @@ matrix:
           CROSS=""
 
     - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            # For cross-compiling to Windows.
-            - binutils-mingw-w64-i686
-            - binutils-mingw-w64-x86-64
-            - gcc-mingw-w64-i686
-            - gcc-mingw-w64-x86-64
-            - g++-mingw-w64-i686
-            - g++-mingw-w64-x86-64
-            - mingw-w64
-      compiler: x86_64-w64-mingw32-gcc
       env:
           BUILD=windows
           CHANNEL=stable
@@ -48,6 +34,8 @@ before_install:
   - export PATH=~/.nimble/bin:$PATH
   - echo "export PATH=~/.nimble/bin:$PATH" >> ~/.profile
   - choosenim $CHANNEL
+  - if [ $TRAVIS_OS_NAME == linux -a $BUILD == windows ]; then sudo apt-get install mingw-w64 gcc-mingw-w64-x86-64 binutils-mingw-w64-x86-64 wine; fi
+  - if [ $TRAVIS_OS_NAME == linux -a $BUILD == windows ]; then CC=x86_64-w64-mingw32-gcc; fi
 
 script:
   - nim c --run ./main.nim
