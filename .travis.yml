@@ -51,18 +51,20 @@ before_install:
 
 script:
   - nim c --run ./main.nim
+  # pcre64.dll/pcre32.dll must be distributed with the Windows executable
+  - if [ $TRAVIS_OS_NAME == linux -a $BUILD == windows ]; then curl -O https://nim-lang.org/download/dlls.zip; unzip dlls.zip; fi
   - nim compile -d:Release --passc:"-flto" $CROSS main.nim
-  - strip main
-  - cp ./main ./main-$BUILD
+  - if [ $TRAVIS_OS_NAME == linux -a $BUILD == windows ]; then strip main pcre64.dll; else strip main; fi
+  - mkdir -p main-$BUILD-x86_64
+  - mv main main-$BUILD-x86_64
+  - if [ $TRAVIS_OS_NAME == linux -a $BUILD == windows ]; then mv pcre64.dll main-$BUILD-x86_64; fi
+  - if [ $TRAVIS_OS_NAME == linux -a $BUILD == windows ]; then zip -r9 dist/main-$BUILD-x86_64.zip main-$BUILD-x86_64; else tar cfJ dist/main-$BUILD-x86_64.tar.xz main-$BUILD-x86_64; fi
 
 after_success:
-  - travis_retry curl -L https://github.com/tfausak/github-release/releases/download/1.2.2/github-release-$TRAVIS_OS_NAME.gz | gunzip > github-release
-  - chmod a+x github-release
-  # pcre64.dll/pcre32.dll must be distributed with the Windows executable
-  - curl -O https://nim-lang.org/download/dlls.zip
-  - unzip dlls.zip
-  # - ./github-release release --token=$GITHUB_TOKEN --owner=kdheepak --repo=travis-nim --title=$TRAVIS_TAG --tag=$TRAVIS_TAG
-  - ./github-release upload --token=$GITHUB_TOKEN --owner=kdheepak --repo=travis-nim --file=main-$BUILD --tag=releases --name=main-$BUILD
+    - travis_retry curl -L https://github.com/tfausak/github-release/releases/download/1.2.2/github-release-$TRAVIS_OS_NAME.gz | gunzip > github-release
+    - chmod a+x github-release
+    # - ./github-release release --token=$GITHUB_TOKEN --owner=kdheepak --repo=travis-nim --title=$TRAVIS_TAG --tag=$TRAVIS_TAG
+    - ./github-release upload --token=$GITHUB_TOKEN --owner=kdheepak --repo=travis-nim --file=dist/main-$BUILD-x86_64.zip --tag=releases --name=main-$BUILD-x86_64.zip
 
 notifications:
   email: false
