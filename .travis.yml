@@ -50,6 +50,7 @@ before_install:
   - if [ $TRAVIS_OS_NAME == linux -a $BUILD == windows ]; then export CC=x86_64-w64-mingw32-gcc; fi
 
 script:
+  - mkdir -p dist
   - nim c --run ./main.nim
   # pcre64.dll/pcre32.dll must be distributed with the Windows executable
   - if [ $TRAVIS_OS_NAME == linux -a $BUILD == windows ]; then curl -O https://nim-lang.org/download/dlls.zip; unzip dlls.zip; fi
