@@ -22,7 +22,7 @@ build:
     - strip main pcre64.dll
     - mkdir -p main-windows-x86_64/
     - mv main pcre64.dll main-windows-x86_64/
-    - cp README.md LICENSE.md main-windows-x86_64/
+    # - cp README.md LICENSE.md main-windows-x86_64/
     - zip -r9 dist/main-windows-x86_64.zip main-windows-x86_64/
 
     - rm /usr/bin/x86_64-w64-mingw32-gcc
@@ -31,7 +31,7 @@ build:
     - strip main pcre32.dll
     - mkdir -p main-windows-x86/
     - mv main pcre32.dll main-windows-x86/
-    - cp README.md LICENSE.md main-windows-x86/
+    # - cp README.md LICENSE.md main-windows-x86/
     - zip -r9 dist/main-windows-x86.zip main-windows-x86/
 
   artifacts:
