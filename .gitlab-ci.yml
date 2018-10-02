@@ -49,5 +49,6 @@ deploy:
     - chmod a+x github-release
     # - ./github-release release --token=$GITHUB_TOKEN --owner=kdheepak --repo=travis-nim --title=$TRAVIS_TAG --tag=$TRAVIS_TAG
   script:
-    - ./github-release upload --token=$GITHUB_TOKEN --owner=kdheepak --repo=travis-nim --file=dist/main-windows-x86.zip --tag=releases --name=main-windows-x86.zip
-    - ./github-release upload --token=$GITHUB_TOKEN --owner=kdheepak --repo=travis-nim --file=dist/main-windows-x86_64.zip --tag=releases --name=main-windows-x86_64.zip
+    # - ./github-release upload --token=$GITHUB_TOKEN --owner=kdheepak --repo=travis-nim --file=dist/main-windows-x86.zip --tag=releases --name=main-windows-x86.zip
+    # - ./github-release upload --token=$GITHUB_TOKEN --owner=kdheepak --repo=travis-nim --file=dist/main-windows-x86_64.zip --tag=releases --name=main-windows-x86_64.zip
+    - echo "Ignore release"
