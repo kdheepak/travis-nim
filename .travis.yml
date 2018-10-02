@@ -51,10 +51,9 @@ before_install:
 
 script:
   - mkdir -p dist
-  - nim c --run ./main.nim
   # pcre64.dll/pcre32.dll must be distributed with the Windows executable
   - if [ $TRAVIS_OS_NAME == linux -a $BUILD == windows ]; then curl -O https://nim-lang.org/download/dlls.zip; unzip dlls.zip; fi
-  - nim compile -d:Release --passc:"-flto" $CROSS main.nim
+  - nimble build -d:release --passc:"-flto" $CROSS
   - if [ $TRAVIS_OS_NAME == linux -a $BUILD == windows ]; then strip main pcre64.dll; else strip main; fi
   - mkdir -p main-$BUILD-x86_64
   - mv main main-$BUILD-x86_64
